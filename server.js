@@ -8,21 +8,16 @@ require("dotenv").config();
 
 // ejs setting
 app.set("view engine", "ejs");
+// routers import
+const aboutRouter = require("./router/aboutroute");
+const contactRouter = require("./router/contactroute");
+const homeRouter = require("./router/homeroute");
 
-app.get("/", (_, res) => {
-  res.render("index", { title: "index" });
-});
+app.use(homeRouter.router.path, homeRouter.router.router);
+app.use(aboutRouter.router.path, aboutRouter.router.router);
+app.use(contactRouter.router.path, contactRouter.router.router);
+// 404 page
 
-app.get("/home", (_, res) => {
-  res.render("home", { title: "home" });
-}
-);
-  
-app.get("/signup", (_, res) => {
-
-  res.render("signup", { title: "signup" });
-}
-);
 
 
 app.listen(port, console.log("men ishga tshdim"));
