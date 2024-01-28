@@ -1,6 +1,8 @@
-const db = require("../db");
+const { Usermodel } = require("../userdata/userdb");
+// import bcrypt
+const bcrypt = require("bcrypt");
 
-const getsinginPage = async (req, res) => {
+const getsinginPage = async (_, res) => {
   res.render("signin", {
     title: "signin page",
     path: "/",
@@ -11,24 +13,32 @@ const getsinginPage = async (req, res) => {
 const getPostpage = async (req, res) => {
   try {
     const { login, password } = req.body;
-    let findlogin = db.find((user) => user.login === login);
-    if (!findlogin) {
-      throw new Error("bunday login yoki parol bazada yo'q");
-    }
-    let findpassword = db.find((user) => user.password === password);
-    if (!findpassword) {
-      throw new Error("bunday login yoki parol bazada yo'q");
+
+    // Shart berish
+    if (!(login && password)) {
+      throw new Error("Barcha maydonlarni to'ldiring");
     }
 
-    db.push(req.body);
+    // Bazadan loginni topish
+    const user = await Usermodel.findOne({ login });
+
+    if (!user) {
+      throw new Error("Bunday login bazada yo'q");
+    }
+
+    // Parolni tekshirish
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      throw new Error("Parol xato");
+    }
+
     res.redirect("/");
   } catch (error) {
-
     res.render("signin", {
-
       title: "signin page",
       path: "/signin",
-      error: error.message || "xato sms",
+      error: error.message || "Xato SMS",
     });
   }
 };
