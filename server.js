@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -9,6 +10,7 @@ require("dotenv").config();
 // middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // ejs setting
 app.set("view engine", "ejs");

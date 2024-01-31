@@ -50,6 +50,7 @@ const getPostpage = async (req, res) => {
     await Usermodel.create(user);
 
     // agar registerdan otsa login pagega yuboramiz
+    res.cookie("login", login);
     res.redirect("/signin");
   } catch (error) {
     console.error("Error:", error);

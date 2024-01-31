@@ -32,6 +32,7 @@ const userSchema = new Schema({
   },
 });
 
+
 const Usermodel = model("User", userSchema);
 
 module.exports = { connect, Usermodel };

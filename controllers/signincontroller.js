@@ -34,6 +34,9 @@ const getPostpage = async (req, res) => {
     }
 
     res.redirect("/");
+    
+
+
   } catch (error) {
     res.render("signin", {
       title: "signin page",
